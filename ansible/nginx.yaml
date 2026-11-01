@@ -7,3 +7,8 @@
         name: nginx
         state: present
         update_cache: true
+    - name: Abilita e avvia il servizio nginx
+      ansible.builtin.service:
+        name: nginx
+        enabled: yes
+        state: started
