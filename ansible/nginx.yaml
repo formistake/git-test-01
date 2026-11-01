@@ -1,0 +1,9 @@
+- name: Installa nginx
+  hosts: web
+  become: true
+  tasks:
+    - name: Pacchetto nginx presente
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
