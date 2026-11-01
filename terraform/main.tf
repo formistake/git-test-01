@@ -13,3 +13,4 @@ resource "local_file" "inventario" {
     [web]
     web01 ansible_host=192.168.1.10
   EOT
+}
