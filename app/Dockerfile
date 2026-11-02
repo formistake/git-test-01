@@ -6,6 +6,7 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # Stage 2: immagine finale
 FROM python:3.12-slim
+LABEL org.opencontainers.image.source="https://github.com/formistake/git-test-01"
 WORKDIR /opt/devops-lab
 COPY --from=build /install /usr/local
 COPY app.py .
