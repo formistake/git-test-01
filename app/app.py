@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.get("/")
 def index():
     return jsonify(
-        messaggio="Ciao dal devops-lab!",
+        messaggio="Ciao dal devops-lab",
         ambiente=os.getenv("APP_ENV", "sviluppo"),
     )
 
