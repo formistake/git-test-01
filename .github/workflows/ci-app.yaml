@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,7 +23,7 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt -r requirements-dev.txt
       - run: pytest
-  
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -31,10 +32,13 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v5
+
       - name: Calcola il nome dell'immagine
         run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/devops-lab-app:${GITHUB_SHA}" >> "$GITHUB_ENV"
+
       - name: Build
-        run: docker build -t "$IMAGE" app/
+        run: docker build --provenance=false -t "$IMAGE" app/
+
       - name: Smoke test
         run: |
           docker run -d --name smoke -p 8000:8000 "$IMAGE"
@@ -47,6 +51,7 @@ jobs:
           echo "L'applicazione non risponde, log del container:"
           docker logs smoke
           exit 1
+
       - name: Scansione vulnerabilità
         run: |
           docker run --rm \
@@ -56,9 +61,11 @@ jobs:
             --severity HIGH,CRITICAL \
             --ignore-unfixed \
             "$IMAGE"
+
       - name: Login al registry
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
       - name: Pubblica l'immagine
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: docker push "$IMAGE"
