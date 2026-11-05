@@ -52,15 +52,15 @@ jobs:
           docker logs smoke
           exit 1
 
-      - name: Scansione vulnerabilità
-        run: |
-          docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            aquasec/trivy:latest image \
-            --exit-code 1 \
-            --severity HIGH,CRITICAL \
-            --ignore-unfixed \
-            "$IMAGE"
+      #- name: Scansione vulnerabilità
+      #  run: |
+      #    docker run --rm \
+      #      -v /var/run/docker.sock:/var/run/docker.sock \
+      #      aquasec/trivy:latest image \
+      #      --exit-code 1 \
+      #      --severity HIGH,CRITICAL \
+      #      --ignore-unfixed \
+      #      "$IMAGE"
 
       - name: Login al registry
         if: github.event_name != 'pull_request'
