@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-lab-sviluppo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/formistake/git-test-01.git
+    targetRevision: main
+    path: deploy/chart
+    helm:
+      releaseName: devops-lab
+      valueFiles:
+        - ../ambienti/values-sviluppo.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: lab-sviluppo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

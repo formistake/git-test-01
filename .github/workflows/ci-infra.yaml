@@ -45,5 +45,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: helm lint deploy/chart
-      - run: helm template verifica deploy/chart > /dev/null
+      - run: helm lint deploy/chart -f deploy/ambienti/values-sviluppo.yaml
+      - run: helm template verifica deploy/chart -f deploy/ambienti/values-sviluppo.yaml > /dev/null        
