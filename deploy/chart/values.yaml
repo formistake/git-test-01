@@ -1,0 +1,10 @@
+image:
+  repository: ghcr.io/formistake/devops-lab-app
+  tag: "0.1.0"
+
+replicaCount: 2
+
+appEnv: sviluppo
+
+service:
+  port: 80
