@@ -1,6 +1,6 @@
 image:
   tag: "0.2.0"
 
-replicaCount: 3
+replicaCount: 2
 
 appEnv: sviluppo
